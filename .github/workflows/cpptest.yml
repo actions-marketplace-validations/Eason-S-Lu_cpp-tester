@@ -18,6 +18,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install C++ 23
         run: sudo apt install -y g++-11
+      - name: Check for C++ files
+        run: |
+          if [ -z "$(find . -name "*.cpp")" ]; then
+            echo "No C++ files found"
+            exit 0
+          fi
       - name: Compile C++ code
         run: g++-11 -std=c++23 -Wall -Wextra -Werror -pedantic *.cpp -o main
       - name: Run tests
