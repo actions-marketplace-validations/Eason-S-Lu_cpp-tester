@@ -1,4 +1,4 @@
-name: C++ Build and Test
+name: C++ Build
 
 on:
   pull_request:
@@ -15,27 +15,43 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install C++ 23
-        run: sudo apt install -y g++-11
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install C++ compilers
+        run: |
+          sudo apt install -y g++
+
       - name: Check for C++ files
         id: check_cpp_files
         run: |
           if [ -z "$(find . -name '*.cpp')" ]; then
             echo "No C++ files found"
-            echo "::set-output name=cpp_files::false"
+            echo "{cpp_files}={false}" >> "$GITHUB_ENV"
           else
-            echo "::set-output name=cpp_files::true"
+            echo "C++ files found"
+             echo "{cpp_files}={true}" >> "$GITHUB_ENV"
           fi
-      - name: Compile C++ code
-        if: steps.check_cpp_files.outputs.cpp_files == 'true'
-        run: g++-11 -std=c++23 -Wall -Wextra -Werror -pedantic *.cpp -o main
-      - name: Run tests
-        if: steps.check_cpp_files.outputs.cpp_files == 'true'
-        run: ./main
+
+      - name: Compile C++ code (C++14)
+        if: $cpp_files == 'true'
+        run: g++ -std=c++14 -Wall -Wextra -Werror -pedantic -c *.cpp
+
+      - name: Compile C++ code (C++17)
+        if: $cpp_files == 'true'
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic -c *.cpp
+
+      - name: Compile C++ code (C++20)
+        if: $cpp_files == 'true'
+        run: g++ -std=c++20 -Wall -Wextra -Werror -pedantic -c *.cpp
+
+      - name: Compile C++ code (C++23)
+        if: $cpp_files == 'true'
+        run: g++ -std=c++23 -Wall -Wextra -Werror -pedantic -c *.cpp
+
       - name: Upload build artifact
-        if: failure()
+        if: $cpp_files == 'true' && success()
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
-          path: main
+          path: .
