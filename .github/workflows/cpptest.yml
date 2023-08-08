@@ -27,30 +27,30 @@ jobs:
         run: |
           if [ -z "$(find . -name '*.cpp')" ]; then
             echo "No C++ files found"
-            echo "cpp_files=false" >> "$GITHUB_ENV"
+            echo "{cpp_files}={false}" >> "$GITHUB_ENV"
           else
             echo "C++ files found"
-             echo "cpp_files=true" >> "$GITHUB_ENV"
+             echo "{cpp_files}={true}" >> "$GITHUB_ENV"
           fi
 
       - name: Compile C++ code (C++14)
-        if: ${{env.cpp_files}} == 'true'
+        if: ${{env.cpp_files == 'true'}}
         run: g++ -std=c++14 -Wall -Wextra -Werror -pedantic -c *.cpp
 
       - name: Compile C++ code (C++17)
-        if: ${{env.cpp_files}} == 'true'
+        if: ${{env.cpp_files == 'true'}}
         run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic -c *.cpp
 
       - name: Compile C++ code (C++20)
-        if: ${{env.cpp_files}} == 'true'
+        if: ${{env.cpp_files == 'true'}}
         run: g++ -std=c++20 -Wall -Wextra -Werror -pedantic -c *.cpp
 
       - name: Compile C++ code (C++23)
-        if: ${{env.cpp_files}} == 'true'
+        if: ${{env.cpp_files == 'true'}}
         run: g++ -std=c++23 -Wall -Wextra -Werror -pedantic -c *.cpp
 
       - name: Upload build artifact
-        if: ${{env.cpp_files}} == 'true' && success()
+        if: ${{env.cpp_files == 'true'}} && success()
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
