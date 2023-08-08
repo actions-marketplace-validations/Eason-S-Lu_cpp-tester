@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install C++ 23
         run: sudo apt install -y g++-11
       - name: Check for C++ files
@@ -30,7 +30,7 @@ jobs:
         run: ./main
       - name: Upload build artifact
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build-artifact
           path: main
