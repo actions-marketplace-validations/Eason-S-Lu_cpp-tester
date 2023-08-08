@@ -25,6 +25,7 @@ jobs:
             exit 0
           fi
       - name: Compile C++ code
+        if: ${{ ! -z "$(find . -name "*.cpp")" }}
         run: g++-11 -std=c++23 -Wall -Wextra -Werror -pedantic *.cpp -o main
       - name: Run tests
         run: ./main
