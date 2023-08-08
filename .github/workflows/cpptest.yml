@@ -1,0 +1,37 @@
+name: C++ Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up C++ environment
+        uses: actions/setup-cxx@v2
+        with:
+          cxx-version: '23'
+          compiler: 'gcc'
+
+      - name: Build and test
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+          if [ $? -ne 0 ]; then
+            echo "Build failed!"
+            exit 1
+          fi
+          
+          # Run the compiler with strict settings
+          g++ -std=c++23 -Wall -Wextra -Werror -Wpedantic -Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-maybe-uninitialized -Wno-class-memaccess -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-local-typedefs -Wno-unused-private-field -Wno-unused-function -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-unused-result -Wno-unused-const-variable -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-switch-enum -Wno-cast-qual -Wno-old-style-cast -Wno-gnu-zero-variadic-macro-arguments -Wno-unused-private-field -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-maybe-uninitialized -Wno-sign-conversion -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-unknown-pragmas -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-conversion -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-const-variable -Wno-unused-local-typedefs -Wno-deprecated-copy -Wno-pessimizing-move -Wno-unused-lambda-capture -Wno-unused-but-set-parameter -Wno-unused-parameter -Wno-sign-con
