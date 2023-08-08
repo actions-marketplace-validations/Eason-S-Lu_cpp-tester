@@ -1,4 +1,4 @@
-name: C++ Build
+name: C++ compile tester
 
 on:
   pull_request:
