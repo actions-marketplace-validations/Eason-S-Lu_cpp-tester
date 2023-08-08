@@ -1,4 +1,5 @@
 name: C++ compile tester
+description: Test c++ code in the repo and see if they compile. Compile in pedantic mode.
 
 on:
   pull_request:
