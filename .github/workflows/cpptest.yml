@@ -19,18 +19,22 @@ jobs:
       - name: Install C++ 23
         run: sudo apt install -y g++-11
       - name: Check for C++ files
+        id: check_cpp_files
         run: |
-          if [ -z "$(find . -name "*.cpp")" ]; then
+          if [ -z "$(find . -name '*.cpp')" ]; then
             echo "No C++ files found"
-            exit 0
+            echo "::set-output name=cpp_files::false"
+          else
+            echo "::set-output name=cpp_files::true"
           fi
       - name: Compile C++ code
-        if: ${{ ! -z "$(find . -name "*.cpp")" }}
+        if: steps.check_cpp_files.outputs.cpp_files == 'true'
         run: g++-11 -std=c++23 -Wall -Wextra -Werror -pedantic *.cpp -o main
       - name: Run tests
+        if: steps.check_cpp_files.outputs.cpp_files == 'true'
         run: ./main
       - name: Upload build artifact
-        if: ${{ failure() }}
+        if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
